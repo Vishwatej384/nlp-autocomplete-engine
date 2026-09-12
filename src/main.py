@@ -1,4 +1,11 @@
-text = "I Want To Learn NLP"
-text = text.lower()
-tokens = text.split()
-print(tokens)
+text = "I love machine learning"
+
+tokens = text.lower().split()
+
+bigrams = []
+
+for i in range(len(tokens) - 1):
+    bigram = (tokens[i], tokens[i + 1])
+    bigrams.append(bigram)
+
+print(bigrams)
