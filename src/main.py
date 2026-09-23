@@ -22,6 +22,9 @@ from evaluation import (
     evaluate_autocomplete,
     display_evaluation
 )
+
+from eda import run_eda
+
 from pathlib import Path
 import re
 
@@ -638,6 +641,7 @@ def main():
     # --------------------------------------------------------
 
     sentences = load_corpus()
+    run_eda(sentences, tokenize)
     split_index = int(len(sentences) * 0.8)
     train_sentences = sentences[:split_index]
     test_sentences = sentences[split_index:]
@@ -869,7 +873,25 @@ def main():
     )
 
     print()
+        # ============================================================
+    # MODEL EVALUATION
+    # ============================================================
 
+    results = evaluate_autocomplete(
+        test_sentences,
+        bigram_counts,
+        context_counts,
+        trigram_counts,
+        trigram_context_counts,
+        vocabulary
+    )
+
+    display_evaluation(results)
+    print()
+
+    # ============================================================
+    # INTERACTIVE AUTOCOMPLETE
+    # ============================================================
 
     while True:
 
@@ -896,16 +918,6 @@ def main():
             vocabulary,
             top_n=5
         )
-        results = evaluate_autocomplete(
-            test_sentences,
-            bigram_counts,
-            context_counts,
-            trigram_counts,
-            trigram_context_counts,
-            vocabulary
-        )
-        display_evaluation(results)
-
         print()
 
         print("Suggestions:")
